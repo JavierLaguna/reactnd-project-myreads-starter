@@ -20,8 +20,8 @@ export default class BookshelfSection extends PureComponent {
                 <h2 className="bookshelf-title">{this.props.title}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {this.props.books.map((book) => (
-                            <li>
+                        {this.props.books.map((book, index) => (
+                            <li key={index}>
                                 <Book/>
                             </li>
                         ))}
