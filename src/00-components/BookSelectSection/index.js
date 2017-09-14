@@ -1,25 +1,29 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {SHELF_TYPES} from '../../constants';
 
 export default class BookSelectSection extends PureComponent {
 
     static propTypes = {
-        //TODO
+        onChange: PropTypes.func.isRequired
     };
 
     static defaultProps = {
-        //TODO
+        onChange: () => {
+        }
     };
 
     render() {
+        const {onChange} = this.props;
+
         return (
             <div className="book-shelf-changer">
-                <select>
-                    <option value="none" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
+                <select onChange={onChange}>
+                    <option value={SHELF_TYPES.NONE} disabled>Move to...</option>
+                    <option value={SHELF_TYPES.CURRENTLY_READING}>Currently Reading</option>
+                    <option value={SHELF_TYPES.WANT_TO_READ}>Want to Read</option>
+                    <option value={SHELF_TYPES.READ}>Read</option>
+                    <option value={SHELF_TYPES.NONE}>None</option>
                 </select>
             </div>
         )
