@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 
 export default class SearchBooks extends PureComponent {
+
     render() {
         return (
             <div className="search-books">

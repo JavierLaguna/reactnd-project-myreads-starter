@@ -22,7 +22,10 @@ export default class BookshelfSection extends PureComponent {
                     <ol className="books-grid">
                         {this.props.books.map((book, index) => (
                             <li key={index}>
-                                <Book/>
+                                <Book title={book.title}
+                                      authors={book.authors}
+                                      imageUrl={book.imageLinks.thumbnail}
+                                />
                             </li>
                         ))}
                     </ol>
