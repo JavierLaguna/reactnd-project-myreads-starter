@@ -17,7 +17,11 @@ export default class BookshelfSection extends PureComponent {
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.title}</h2>
                 <div className="bookshelf-books">
-                    {this.props.children}
+                    <ol className="books-grid">
+                        <li>
+                            {this.props.children}
+                        </li>
+                    </ol>
                 </div>
             </div>
         )
