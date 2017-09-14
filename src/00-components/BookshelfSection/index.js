@@ -5,7 +5,7 @@ export default class BookshelfSection extends PureComponent {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
-        // children: PropTypes.array,
+        // children: PropTypes.array, //TODO
     };
 
     static defaultProps = {
