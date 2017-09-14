@@ -4,9 +4,11 @@ import './App.css'
 import SearchBooks from './00-components/SearchBooks';
 import BookshelfSection from './00-components/BookshelfSection';
 import Book from './00-components/Book';
+import * as BooksAPI from './BooksAPI';
 
 export default class BooksApp extends React.Component {
     state = {
+        books: [],
         /**
          * TODO: Instead of using this state variable to keep track of which page
          * we're on, use the URL in the browser's address bar. This will ensure that
@@ -15,6 +17,14 @@ export default class BooksApp extends React.Component {
          */
         showSearchPage: false
     };
+
+    componentDidMount() {
+        BooksAPI.getAll().then((books) => {
+            this.setState({
+                books
+            });
+        });
+    }
 
     render() {
         return (
