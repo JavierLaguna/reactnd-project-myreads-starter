@@ -30,6 +30,21 @@ export default class BooksApp extends React.Component {
         });
     }
 
+    updateBook = (bookToUpdate, newShelf) => {
+        this.setState({isLoading: true});
+        BooksAPI.update(bookToUpdate, newShelf).then((data) => {
+            this.setState((prevState) => ({
+                isLoading: false,
+                books: prevState.books.map((book) => {
+                    if (book.id === bookToUpdate.id) {
+                        book.shelf = newShelf
+                    }
+                    return book;
+                })
+            }));
+        });
+    };
+
     render() {
         if (this.state.isLoading) {
             return (<Loading/>);
@@ -39,7 +54,8 @@ export default class BooksApp extends React.Component {
         let booksByShelf = {
             [SHELF_TYPES.CURRENTLY_READING]: [],
             [SHELF_TYPES.WANT_TO_READ]: [],
-            [SHELF_TYPES.READ]: []
+            [SHELF_TYPES.READ]: [],
+            [SHELF_TYPES.NONE]: []
         };
 
         books.map((book) => {
@@ -60,12 +76,15 @@ export default class BooksApp extends React.Component {
                             <div>
                                 <BookshelfSection title='Currently Reading'
                                                   books={booksByShelf[SHELF_TYPES.CURRENTLY_READING]}
+                                                  onChangeShelf={this.updateBook}
                                 />
                                 <BookshelfSection title='Want to Read'
                                                   books={booksByShelf[SHELF_TYPES.WANT_TO_READ]}
+                                                  onChangeShelf={this.updateBook}
                                 />
                                 <BookshelfSection title='Read'
                                                   books={booksByShelf[SHELF_TYPES.READ]}
+                                                  onChangeShelf={this.updateBook}
                                 />
                             </div>
                         </div>
