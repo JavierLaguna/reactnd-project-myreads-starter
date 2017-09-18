@@ -25,6 +25,7 @@ export default class BookshelfSection extends PureComponent {
                                 <Book title={book.title}
                                       authors={book.authors}
                                       imageUrl={book.imageLinks.thumbnail}
+                                      shelf={book.shelf}
                                 />
                             </li>
                         ))}

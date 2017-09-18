@@ -1,23 +1,26 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import BookSelectSection from '../BookSelectSection';
+import BookshelfSelect from '../BookshelfSelect';
 
 export default class Book extends PureComponent {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
         authors: PropTypes.array.isRequired,
-        imageUrl: PropTypes.string.isRequired
+        imageUrl: PropTypes.string.isRequired,
+        shelf: PropTypes.string.isRequired
     };
 
     static defaultProps = {
         title: '',
         authors: [],
-        imageUrl: ''
+        imageUrl: '',
+        shelf: ''
     };
 
     render() {
-        const {title, authors, imageUrl} = this.props;
+        const {title, authors, imageUrl, shelf} = this.props;
+
         return (
             <div className="book">
                 <div className="book-top">
@@ -28,7 +31,11 @@ export default class Book extends PureComponent {
                              backgroundImage: `url(${imageUrl})`
                          }}
                     />
-                    <BookSelectSection/>
+                    <BookshelfSelect value={shelf}
+                                       onChange={(value) => {
+                                           debugger
+                                       }}
+                    />
                 </div>
                 <div className="book-title">{title}</div>
                 <div className="book-authors">

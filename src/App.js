@@ -37,6 +37,7 @@ export default class BooksApp extends React.Component {
 
         books.map((book) => {
             booksByShelf[book.shelf].push(book);
+            return null;
         });
 
         return (
