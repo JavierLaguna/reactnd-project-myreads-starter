@@ -3,6 +3,7 @@ import React from 'react'
 import './App.css'
 import SearchBooks from './00-components/SearchBooks';
 import BookshelfSection from './00-components/BookshelfSection';
+import Loading from './00-components/Loading';
 import * as BooksAPI from './BooksAPI';
 import {SHELF_TYPES} from './constants';
 
@@ -16,18 +17,24 @@ export default class BooksApp extends React.Component {
          * users can use the browser's back and forward buttons to navigate between
          * pages, as well as provide a good URL they can bookmark and share.
          */
-        showSearchPage: false
+        showSearchPage: false,
+        isLoading: true
     };
 
     componentDidMount() {
         BooksAPI.getAll().then((books) => {
             this.setState({
-                books
+                books,
+                isLoading: false
             });
         });
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (<Loading/>);
+        }
+
         const {books} = this.state;
         let booksByShelf = {
             [SHELF_TYPES.CURRENTLY_READING]: [],
