@@ -1,12 +1,25 @@
 import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import './index.css';
 
 export default class SearchBooks extends PureComponent {
 
+    static propTypes = {
+        goBack: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        goBack: () => {
+        }
+    };
+
     render() {
+        const {goBack} = this.props;
+
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={() => this.setState({showSearchPage: false})}>Close</a>
+                    <a className="close-search" onClick={goBack}>Close</a>
                     <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
