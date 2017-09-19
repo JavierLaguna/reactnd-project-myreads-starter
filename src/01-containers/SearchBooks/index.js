@@ -1,8 +1,15 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import * as BooksAPI from '../../BooksAPI';
+import debounce from 'lodash.debounce';
+import Loading from '../../00-components/Loading';
 import './index.css';
 
 export default class SearchBooks extends PureComponent {
+    state = {
+        books: [],
+        isLoading: false
+    };
 
     static propTypes = {
         goBack: PropTypes.func.isRequired
@@ -13,6 +20,21 @@ export default class SearchBooks extends PureComponent {
         }
     };
 
+    onChangeSearchValue = (event) => {
+        this.setState({isLoading: true});
+        const {value} = event.target;
+        this.searchBook(value);
+    };
+
+    searchBook = debounce((value) => {
+        BooksAPI.search(value, 20).then((books) => {
+            this.setState({
+                books,
+                isLoading: false
+            });
+        });
+    }, 500);
+
     render() {
         const {goBack} = this.props;
 
@@ -21,20 +43,15 @@ export default class SearchBooks extends PureComponent {
                 <div className="search-books-bar">
                     <a className="close-search" onClick={goBack}>Close</a>
                     <div className="search-books-input-wrapper">
-                        {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                        <input type="text" placeholder="Search by title or author"/>
-
+                        <input type="text" placeholder="Search by title or author" onChange={this.onChangeSearchValue}/>
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid"/>
+                    {this.state.isLoading ?
+                        <Loading/>
+                        :
+                        <ol className="books-grid"/>
+                    }
                 </div>
             </div>
         )
