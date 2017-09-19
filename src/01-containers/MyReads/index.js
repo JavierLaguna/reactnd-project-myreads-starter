@@ -3,6 +3,7 @@ import BookshelfSection from '../../00-components/BookshelfSection';
 import Loading from '../../00-components/Loading';
 import * as BooksAPI from '../../BooksAPI';
 import {SHELF_TYPES} from '../../constants';
+import {Link} from 'react-router-dom';
 
 export default class MyReads extends React.Component {
 
@@ -75,7 +76,7 @@ export default class MyReads extends React.Component {
                     </div>
                 </div>
                 <div className="open-search">
-                    <a onClick={() => this.setState({showSearchPage: true})}>Add a book</a>
+                    <Link to='/search'>Add a book</Link>
                 </div>
             </div>
 
