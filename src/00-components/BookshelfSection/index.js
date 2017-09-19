@@ -22,7 +22,7 @@ export default class BookshelfSection extends PureComponent {
         this.props.onChangeShelf(bookToUpdate, newShelf);
     };
 
-    render() {
+    render() { //TODO No books msg
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.title}</h2>
