@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as BooksAPI from '../../BooksAPI';
 import debounce from 'lodash.debounce';
 import Loading from '../../00-components/Loading';
+import BooksGrid from '../../00-components/BooksGrid';
 import './index.css';
 
 export default class SearchBooks extends PureComponent {
@@ -37,6 +38,7 @@ export default class SearchBooks extends PureComponent {
 
     render() {
         const {goBack} = this.props;
+        const {books} = this.state;
 
         return (
             <div className="search-books">
@@ -50,7 +52,7 @@ export default class SearchBooks extends PureComponent {
                     {this.state.isLoading ?
                         <Loading/>
                         :
-                        <ol className="books-grid"/>
+                        <BooksGrid books={books}/>
                     }
                 </div>
             </div>
