@@ -42,16 +42,6 @@ export default class SearchBooks extends PureComponent {
             if (books.error) {
                 books = [];
             }
-            const {myBooks} = this.props;
-            books = books.map((book) => {
-                const myBook = myBooks.find(myBook => myBook.id === book.id);
-                if (myBook) {
-                    book.shelf = myBook.shelf;
-                } else {
-                    book.shelf = SHELF_TYPES.NONE;
-                }
-                return book;
-            });
             this.setState({
                 books,
                 isLoading: false
@@ -60,8 +50,18 @@ export default class SearchBooks extends PureComponent {
     }, 500);
 
     render() {
-        const {goBack, updateBook} = this.props;
+        const {goBack, updateBook, myBooks} = this.props;
         const {books, searchValue} = this.state;
+
+        const booksWithShelf = books.map((book) => {
+            const myBook = myBooks.find(myBook => myBook.id === book.id);
+            if (myBook) {
+                book.shelf = myBook.shelf;
+            } else {
+                book.shelf = SHELF_TYPES.NONE;
+            }
+            return book;
+        });
 
         return (
             <div className="search-books">
@@ -79,7 +79,7 @@ export default class SearchBooks extends PureComponent {
                     {this.state.isLoading ?
                         <Loading/>
                         :
-                        <BooksGrid books={books} onChangeShelf={updateBook}/>
+                        <BooksGrid books={booksWithShelf} onChangeShelf={updateBook}/>
                     }
                 </div>
             </div>
