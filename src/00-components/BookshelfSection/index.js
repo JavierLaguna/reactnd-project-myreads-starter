@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Book from '../Book';
+import BooksGrid from '../BooksGrid';
 
 export default class BookshelfSection extends PureComponent {
 
@@ -17,29 +17,14 @@ export default class BookshelfSection extends PureComponent {
         }
     };
 
-    onChangeShelf = (id, newShelf) => {
-        const bookToUpdate = this.props.books.filter((book) => book.id === id)[0];
-        this.props.onChangeShelf(bookToUpdate, newShelf);
-    };
-
     render() {
+        const {books, onChangeShelf} = this.props;
+
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.title}</h2>
                 <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {this.props.books.map((book, index) => (
-                            <li key={index}>
-                                <Book id={book.id}
-                                      title={book.title}
-                                      authors={book.authors}
-                                      imageUrl={book.imageLinks.thumbnail}
-                                      shelf={book.shelf}
-                                      onChangeShelf={this.onChangeShelf}
-                                />
-                            </li>
-                        ))}
-                    </ol>
+                    <BooksGrid books={books} onChangeShelf={onChangeShelf}/>
                 </div>
             </div>
         )

@@ -1,0 +1,7 @@
+.close-search:hover{
+    cursor: pointer;
+}
+
+.search-books-results {
+    position: fixed;
+}
