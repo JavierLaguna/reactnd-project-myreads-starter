@@ -1,6 +1,6 @@
 {
   "name": "MyReads",
-  "version": "1.0.0",
+  "version": "1.1.0-SNAPSHOT",
   "description": "React application Udacity Nanodegree",
   "dependencies": {
     "lodash.debounce": "^4.0.8",
