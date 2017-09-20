@@ -1,47 +1,25 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types';
 import BookshelfSection from '../../00-components/BookshelfSection';
-import Loading from '../../00-components/Loading';
-import * as BooksAPI from '../../BooksAPI';
 import {SHELF_TYPES} from '../../constants';
 import {Link} from 'react-router-dom';
 
-export default class MyReads extends React.Component {
+export default class MyReads extends PureComponent {
+    state = {};
 
-    state = {
-        books: [],
-        isLoading: true
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        updateBook: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        BooksAPI.getAll().then((books) => {
-            this.setState({
-                books,
-                isLoading: false
-            });
-        });
-    }
-
-    updateBook = (bookToUpdate, newShelf) => {
-        this.setState({isLoading: true});
-        BooksAPI.update(bookToUpdate, newShelf).then((data) => {
-            this.setState((prevState) => ({
-                isLoading: false,
-                books: prevState.books.map((book) => {
-                    if (book.id === bookToUpdate.id) {
-                        book.shelf = newShelf
-                    }
-                    return book;
-                })
-            }));
-        });
+    static defaultProps = {
+        books: [],
+        updateBook: () => {
+        }
     };
 
     render() {
-        if (this.state.isLoading) {
-            return (<Loading/>);
-        }
-
-        const {books} = this.state;
+        const {books, updateBook} = this.props;
         let booksByShelf = {
             [SHELF_TYPES.CURRENTLY_READING]: [],
             [SHELF_TYPES.WANT_TO_READ]: [],
@@ -63,15 +41,15 @@ export default class MyReads extends React.Component {
                     <div>
                         <BookshelfSection title='Currently Reading'
                                           books={booksByShelf[SHELF_TYPES.CURRENTLY_READING]}
-                                          onChangeShelf={this.updateBook}
+                                          onChangeShelf={updateBook}
                         />
                         <BookshelfSection title='Want to Read'
                                           books={booksByShelf[SHELF_TYPES.WANT_TO_READ]}
-                                          onChangeShelf={this.updateBook}
+                                          onChangeShelf={updateBook}
                         />
                         <BookshelfSection title='Read'
                                           books={booksByShelf[SHELF_TYPES.READ]}
-                                          onChangeShelf={this.updateBook}
+                                          onChangeShelf={updateBook}
                         />
                     </div>
                 </div>
