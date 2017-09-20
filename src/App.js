@@ -25,27 +25,29 @@ export default class BooksApp extends Component {
     updateBook = (bookToUpdate, newShelf) => {
         this.setState({isLoading: true});
         BooksAPI.update(bookToUpdate, newShelf).then((data) => {
-            this.setState((prevState) => ({
+            const {myBooks} = this.state;
+            if (!(this.state.myBooks.find(myBook => myBook.id === bookToUpdate.id))) {
+                myBooks.push(bookToUpdate);
+            }
+
+            this.setState({
                 isLoading: false,
-                myBooks: prevState.myBooks.map((book) => {
+                myBooks: myBooks.map((book) => {
                     if (book.id === bookToUpdate.id) {
                         book.shelf = newShelf
                     }
                     return book;
                 })
-            }));
+            });
         });
     };
 
     render() {
-        if (this.state.isLoading) {
-            return (<Loading/>);
-        }
-
-        const {myBooks} = this.state;
+        const {isLoading, myBooks} = this.state;
 
         return (
             <div className="app">
+                {isLoading && <Loading/>}
                 <Route exact path='/' render={() => (
                     <MyReads books={myBooks}
                              updateBook={this.updateBook}
