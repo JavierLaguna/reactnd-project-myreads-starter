@@ -4,6 +4,7 @@ import * as BooksAPI from '../../BooksAPI';
 import debounce from 'lodash.debounce';
 import Loading from '../../00-components/Loading';
 import BooksGrid from '../../00-components/BooksGrid';
+import {SHELF_TYPES} from '../../constants';
 import './index.css';
 
 export default class SearchBooks extends PureComponent {
@@ -14,11 +15,16 @@ export default class SearchBooks extends PureComponent {
     };
 
     static propTypes = {
-        goBack: PropTypes.func.isRequired
+        goBack: PropTypes.func.isRequired,
+        myBooks: PropTypes.array.isRequired,
+        updateBook: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         goBack: () => {
+        },
+        myBooks: [],
+        updateBook: () => {
         }
     };
 
@@ -36,6 +42,16 @@ export default class SearchBooks extends PureComponent {
             if (books.error) {
                 books = [];
             }
+            const {myBooks} = this.props;
+            books = books.map((book) => {
+                const myBook = myBooks.find(myBook => myBook.id === book.id);
+                if (myBook) {
+                    book.shelf = myBook.shelf;
+                } else {
+                    book.shelf = SHELF_TYPES.NONE;
+                }
+                return book;
+            });
             this.setState({
                 books,
                 isLoading: false
@@ -43,15 +59,8 @@ export default class SearchBooks extends PureComponent {
         });
     }, 500);
 
-    updateBook = (bookToUpdate, newShelf) => {
-        this.setState({isLoading: true});
-        BooksAPI.update(bookToUpdate, newShelf).then((data) => {
-            this.setState((prevState) => ({isLoading: false}));
-        });
-    };
-
     render() {
-        const {goBack} = this.props;
+        const {goBack, updateBook} = this.props;
         const {books, searchValue} = this.state;
 
         return (
@@ -70,7 +79,7 @@ export default class SearchBooks extends PureComponent {
                     {this.state.isLoading ?
                         <Loading/>
                         :
-                        <BooksGrid books={books} onChangeShelf={this.updateBook}/>
+                        <BooksGrid books={books} onChangeShelf={updateBook}/>
                     }
                 </div>
             </div>

@@ -47,12 +47,17 @@ export default class BooksApp extends Component {
         return (
             <div className="app">
                 <Route exact path='/' render={() => (
-                    <MyReads books={myBooks} updateBook={this.updateBook}/>
+                    <MyReads books={myBooks}
+                             updateBook={this.updateBook}
+                    />
                 )}/>
                 <Route path='/search' render={({history}) => (
-                    <SearchBooks goBack={() => {
-                        history.push('/')
-                    }}/>
+                    <SearchBooks myBooks={myBooks}
+                                 updateBook={this.updateBook}
+                                 goBack={() => {
+                                     history.push('/')
+                                 }}
+                    />
                 )}/>
             </div>
         )
